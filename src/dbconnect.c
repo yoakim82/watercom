@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int sendValuesToDB(uint16_t pulse, uint16_t power, uint8_t voltage)
+int sendValuesToDB(uint16_t pulse, float waterFlow, uint8_t voltage)
 {
 	char query_str[100], query_cleanup[100];
 
@@ -30,22 +30,15 @@ int sendValuesToDB(uint16_t pulse, uint16_t power, uint8_t voltage)
 		return 1;
 	}
 	
-	sprintf(query_str, "insert into power (pulses, power, time) values (%u, %u, now())", pulse, power);
+	sprintf(query_str, "insert into water_flow (pulses, waterflow, time) values (%u, %u, now())", pulse, waterFlow);
 	
 	//printf("q: %s\n", query_str);
-	//printf("040\n");
-	if (mysql_query(con, query_str)) 
-	{
-		//fprintf(stderr, "%s\n", mysql_error(con));
-		printf("query: %s\n", mysql_error(con));
-		mysql_close(con);
-		//return 1;
 	}
 	//printf("055\n");
 	//printf("successful q: %s\n", query_str);
 	
 	// cleanup old values
-	sprintf(query_cleanup, "delete from power where time < (now() - interval 1 day)");
+	sprintf(query_cleanup, "delete from water_flow where time < (now() - interval 1 day)");
 	
 	//printf("q: %s\n", query_cleanup);
 	//printf("040\n");

@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-int sendValuesToDB(uint16_t pulse, uint16_t power, uint8_t voltage);
+int sendValuesToDB(uint16_t pulse, float waterFlow, uint8_t voltage);
 
 #endif

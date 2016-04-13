@@ -19,7 +19,7 @@
 #########################
 # Project Specific Part #
 #########################
-Project := aircom
+Project := watercom
 Modes   := debug release
 
 # Directory where target binary is created and object files
@@ -34,7 +34,7 @@ Defines           := KONFIG_SUBSYS=none
 Defines_Debug     := DEBUG
 Defines_Release   := RELEASE
 # List of Library Names (Libs is included before mode specific Libs_MODE)
-Libs              :=bcm2835
+Libs              :=bcm2835 wiringPi
 Libs_Debug        :=
 Libs_Release      :=
 # Search Paths for Libraries (LibPaths is included before mode specific LibPaths_MODE)
