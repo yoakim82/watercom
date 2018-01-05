@@ -1,0 +1,71 @@
+pulseCnt = 0
+litersCnt = 0
+
+// myInterrupt:  called every time an event occurs
+function myInterrupt() 
+    pulseCnt = pulseCnt + 1
+end
+
+
+pulsePin = 2
+outPin = 1
+pulse = 0
+prevPulse = 0
+waterFlow = 0.0;
+
+-- measures flow and disengages pump after set num of liters
+function measFlow()
+  
+  -- set Pin 2 generate an interrupt on high-to-low transitions
+  -- and attach myInterrupt() to the interrupt
+
+  gpio.mode(pulsePin,gpio.INT)
+  gpio.trig(pulsePin, "down", myInterrupt)
+
+  -- display counter value every second.
+  tmr.alarm(1, 1000, 1, updateFlow())
+end
+  
+function updateFlow()
+  pulse = pulseCnt 
+  waterFlow = (10*(pulse - prevPulse)) / 7.5 -- in liters / 10 min
+  local wRem = waterFlow % 10
+  prevPulse = pulse
+  print(string.foramt("Puls nr %i: %i.%i l/min\n", pulse, (waterFlow-wRem)/10, waterFlow))    
+  --  /*
+  --  if (waterFlow > 0)
+  --    ret = sendValuesToDB(pulse, waterflow, 0);
+  --  */
+end
+
+function waterPlants(liters)
+  if liters > 0 then
+    gpio.mode(outPin,gpio.OUTPUT)
+    
+    -- engage water pump
+    gpio.write(outPin,gpio.LOW)
+    measFlow()
+    tmr.alarm(2, 500, 1, monitorAccWater(liters))
+
+  end
+end
+
+function monitorAccWater(liters)
+  if litersCnt >= liters then
+    
+    -- disengage pump
+    gpio.write(outPin,gpio.HIGH)
+ 
+    -- stop generating interrupts
+    gpio.trig(pulsePin, "none")  
+
+    -- stop update measurements
+    tmr.stop(1)
+
+    -- kill this monitoring
+    tmr.stop(2)
+  end
+end
+
+  
+

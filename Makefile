@@ -34,7 +34,11 @@ Defines           := KONFIG_SUBSYS=none
 Defines_Debug     := DEBUG
 Defines_Release   := RELEASE
 # List of Library Names (Libs is included before mode specific Libs_MODE)
+<<<<<<< HEAD
 Libs              :=bcm2835 wiringPi
+=======
+Libs              :=wiringPi
+>>>>>>> 5ef658a2952c847d06e09304367bf02b62013076
 Libs_Debug        :=
 Libs_Release      :=
 # Search Paths for Libraries (LibPaths is included before mode specific LibPaths_MODE)
@@ -53,10 +57,14 @@ LFlags_Release    := -O2
 # Add Your Source file here
 # Use $(wildcard dir/*.c) if you want to include files from directory 'dir'
 #Src := $(wildcard src/*.c)
+<<<<<<< HEAD
 Src := src/spi.c
 Src += src/gpio.c
 Src += src/rfm22.c
 Src += src/aircom.c
+=======
+Src := src/watercom.c
+>>>>>>> 5ef658a2952c847d06e09304367bf02b62013076
 Src += src/dbconnect.c
 #Src += C-kern/context/errorcontext.c
 #Src += C-kern/context/maincontext.c
